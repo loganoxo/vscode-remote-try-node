@@ -1,13 +1,56 @@
 {
     "name": "Node.js project",
     "build": {
+        //因为devcontainer.json和 Dockerfile 两个文件同级, 都在.devcontainer目录下,所以直接写文件名即可
         "dockerfile": "Dockerfile",
+        //一定是要写 "..", 因为当前目录是.devcontainer,而项目的根目录是在上一级;为了让 DOckerfile中的COPY命令能找到项目根目录下的文件
         "context": ".."
+    },
+    "features": {
+        //安装一组常见的命令行实用程序
+        //https://github.com/devcontainers/features/blob/main/src/common-utils/README.md
+        //仓库目录中的处理脚本能看到有很多东西就算不配置,也会默认执行的
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            //安装Zsh
+            "installZsh": "true",
+            //默认 shell 更改为 ZSH
+            "configureZshAsDefaultShell": "true",
+            //安装 Oh My Zsh,默认为true
+            "installOhMyZsh": "true",
+            //安装默认的omz的zshrc文件,默认为true
+            "installOhMyZshConfig": "true",
+            //指定或创建默认用户为 node,可以避免使用 root;设置为none,则使用root;不设置时则为auto,自动检测/etc/passwd
+            "username": "node",
+            //官方的docker镜像中,如node,都会默认新建一个用户, 设置的 uid 和 gid都是1000,因为在大多数 Linux 发行版中,系统默认会从 UID 1000 开始分配普通用户
+            //windows中运行docker也是在虚拟linux环境中运行的,Docker Desktop 自动将 Windows 的文件权限映射为容器中用户的读写权限
+            //当镜像中的用户 UID 为 1000 时,通常可以与主机上的第一个普通用户对齐,从而简化文件权限管理,避免容器内外用户权限不一致的问题
+            //但是当linux系统中运行docker的用户ID不是1000时,下面这两个选项就派上用场了,common-utils会自动修改用户(username配置的)的uid
+            //"userUid":"1001"
+            //"userGid":"1001"
+            //在容器初始化时升级所有已安装的软件包
+            "upgradePackages": "true"
+        },
+        //Installs Node.js, nvm, yarn, pnpm, and needed dependencies
+        //https://github.com/devcontainers/features/blob/main/src/node/README.md
+        "ghcr.io/devcontainers/features/node:1": {
+            //设置node.js的版本,用nvm安装,默认为lts;为none时则不再安装其他版本,使用镜像中已经存在的node
+            "version": "none"
+        },
+        //安装最新版本的 Git,根据需要从源码构建.适用于希望使用最新功能的场景;会自动检测最新的稳定版本并安装所需的依赖项
+        "ghcr.io/devcontainers/features/git:1": {
+            //默认为os-provided,使用操作系统提供的git
+            "version": "latest",
+            //从 PPA 安装(如果可用);仅支持 Ubuntu 发行版;默认为true
+            "ppa": "false"
+        }
     },
     "customizations": {
         "vscode": {
             "settings": {},
-            "extensions": ["streetsidesoftware.code-spell-checker"]
+            "extensions": [
+                "streetsidesoftware.code-spell-checker",
+                "dbaeumer.vscode-eslint"
+            ]
         }
     },
     "portsAttributes": {
