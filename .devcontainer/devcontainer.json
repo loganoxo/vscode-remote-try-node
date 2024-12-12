@@ -49,7 +49,18 @@
             "settings": {},
             "extensions": [
                 "streetsidesoftware.code-spell-checker",
-                "dbaeumer.vscode-eslint"
+                "dbaeumer.vscode-eslint",
+                "EditorConfig.EditorConfig",
+                "mhutchie.git-graph",
+                "eamodio.gitlens",
+                "ecmel.vscode-html-css",
+                "christian-kohler.npm-intellisense",
+                "ionutvmi.path-autocomplete",
+                "christian-kohler.path-intellisense",
+                "esbenp.prettier-vscode",
+                "stylelint.vscode-stylelint",
+                "Vue.volar",
+                "formulahendry.code-runner"
             ]
         }
     },
