@@ -1,5 +1,8 @@
 {
+    //默认vscode的devcontainers会自动把当前项目的根目录挂载到容器的/workspaces下
+    //容器内vscode的UI中显示的名字
     "name": "Node.js project",
+    //从Dockerfile构建镜像
     "build": {
         //因为devcontainer.json和 Dockerfile 两个文件同级, 都在.devcontainer目录下,所以直接写文件名即可
         "dockerfile": "Dockerfile",
@@ -46,7 +49,9 @@
     },
     "customizations": {
         "vscode": {
+            //容器中vscode的配置
             "settings": {},
+            //容器中vscode的插件
             "extensions": [
                 "streetsidesoftware.code-spell-checker",
                 "dbaeumer.vscode-eslint",
@@ -64,12 +69,18 @@
             ]
         }
     },
+    //端口转发,无论是否被监听,都会转发
+    // "forwardPorts": [3000],
+    //只有该端口被监听时才会转发
     "portsAttributes": {
         "3000": {
             "label": "Hello Remote World",
+            //转发时会提示浏览器打开
             "onAutoForward": "notify"
         }
     },
+    //容器rebuild后执行的命令
     "postCreateCommand": "yarn install",
+    //容器用户
     "remoteUser": "node"
 }
